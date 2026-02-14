@@ -27,12 +27,22 @@ const userSchema = new mongoose.Schema({
     },
     companyName: {
         type: String,
-        required: true
     },
     companyDescription: {
         type: String,
-        required: true,
     },
 }, {timestamps: true});
+
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) {
+        return next();
+    }
+    const salt = await bycrypt.genSalt(10);
+    this.password = await bycrypt.hash(this.password, salt);
+});
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bycrypt.compare(enteredPassword, this.password);
+}
 
 export default mongoose.model("User", userSchema);
