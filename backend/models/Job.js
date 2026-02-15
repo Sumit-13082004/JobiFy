@@ -20,6 +20,7 @@ const jobSchema = new mongoose.Schema({
     category: {
         type: String,
         enum: ["Software Development", "Design", "Marketing", "Sales", "Customer Support", "Other"],
+        required: true,
     },
     type: {
         type: String,
