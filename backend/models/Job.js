@@ -19,6 +19,7 @@ const jobSchema = new mongoose.Schema({
     },
     category: {
         type: String,
+        enum: ["Software Development", "Design", "Marketing", "Sales", "Customer Support", "Other"],
     },
     type: {
         type: String,
@@ -32,9 +33,11 @@ const jobSchema = new mongoose.Schema({
     },
     salaryMin: {
         type: Number,
+        required: true,
     },
     salaryMax: {
         type: Number,
+        required: true,
     },
     isClosed: {
         type: Boolean,
