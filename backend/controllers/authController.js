@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const generateToken = (userId) => {
-    return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '3d' });
 }
 
 export const register = async (req, res) => {
@@ -38,9 +38,14 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
-        // later
+        if (!user || !(await user.matchPassword(password))) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
 
-        
+        res.status(200).json({
+            user,
+            token: generateToken(user._id),
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
