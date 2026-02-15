@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null,
     },
+    resume: {
+        type: String,
+    },
     role: {
         type: String,
         enum: ["jobseeker", "employer"],
@@ -31,6 +34,9 @@ const userSchema = new mongoose.Schema({
     companyDescription: {
         type: String,
     },
+    companyLogo: {
+        type: String,
+    }
 }, {timestamps: true});
 
 userSchema.pre("save", async function () {
